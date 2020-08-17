@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<HTML>
+
+<HEAD>
+  <META charset = "UTF-8">
+<style>
+		.navbar {
+  			overflow: hidden;
+  			background-color: #333;
+  			position: sticky;
+  			position: -webkit-sticky;
+  			top: 0;
+		}
+
+		.navbar a {
+  			float: left;
+  			display: block;
+  			color: white;
+  			text-align: center;
+  			padding: 14px 20px;
+  			text-decoration: none;
+		}
+		.navbar a.right {
+  			float: right;
+		}
+
+		.navbar a:hover {
+  			background-color: #ddd;
+  			color: black;
+		}
+
+		.navbar a.active {
+  			background-color: #666;
+  			color: white;
+		}
+
+		body
+		{
+			border: 2px solid black;
+			padding: 2500;
+			margin: 0;
+			background: url("https://wallpapercave.com/wp/wp6701462.jpg");
+			background-repeat: no-repeat;
+			background-size: 100%;	      
+		}
+		.Form {   
+  		-ms-flex: 70%; /* IE10 */
+  		flex: 70%;
+  		background-color: rgba(255, 255, 255, 0.322);
+  		padding: 20px;
+		}
+		.main{   
+  		-ms-flex: 70%; /* IE10 */
+  		flex: 70%;
+  		background-color: rgba(255, 255, 255, 0.322);
+  		padding: 20px;
+		}
+		.Table {   
+  		-ms-flex: 70%; /* IE10 */
+  		flex: 70%;
+  		background-color: rgba(255, 255, 255, 0.322);
+  		padding: 20px;
+		}
+
+</style>
+
+  <TITLE> Anime Recommender </TITLE>
+</HEAD>
+
+<BODY>
+	<div style="background-image:url('wp6701462.jpg');">
+		<div class="navbar">
+			<a href="http://127.0.0.1:5000/" class="active">Home</a>
+			<a href="http://127.0.0.1:5000/Anime_By_genre">Genres</a>
+			<a href="http://127.0.0.1:5000/Anime_By_genre">Github Link</a>
+			<a href="http://127.0.0.1:5000/Contact">Contact US</a>
+		</div>
+		
+	<DIV class="Form">
+		<CENTER>
+		<H1> Anime Recommender System </H1>
+
+     		<!-- Receiving Input to our ML Engine -->
+    		<FORM action = "{{ url_for('recommend')}}" method = "post">
+    		<INPUT type = "text" name = "input" placeholder = "Anime Name" required = "required" />
+        	<BUTTON type = "submit"> Find Recommendations </BUTTON>
+    		</FORM>
+
+   		<BR>
+   		<BR>
+   		<BR>
+
+		<!-- Showing Recommendations on HTML GUI -->
+    <div class="main">
+		<h2>Anime Recommended For You</h2>
+		<h3>Top 10 Animes</h4>
+		<br><br>
+		<br><br>
+		<br>
+		<p></p>
+		<br>
+	</div>
+	<DIV class="Table">
+    			{{ recommendations_table | safe }}
+   	</DIV>
+   	</DIV>
+	</DIV>
+</BODY>
+
+</HTML>
