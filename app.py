@@ -3,21 +3,22 @@ import pandas as pd
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.neighbors import NearestNeighbors
 app = flask.Flask(__name__, template_folder="Templates")
-df = pd.read_csv('/home/dibyasadhukhan/Anime_recommender/Data/anime.csv')
+df = pd.read_csv('Data/anime.csv')
 all_titles=[df['name'][i] for i in range(len(df['name']))]
 top_anime=(df.sort_values(by=[ 'members','rating'], ascending= False))
 top_anime = top_anime[['name', 'genre','type','rating']]
 top_anime= top_anime.head(10)
 top_anime.index = list(range(1,11))
 
-Anime_final = pd.read_csv('/home/dibyasadhukhan/Anime_recommender/Data/Anime_final.csv')
+Anime_final = pd.read_csv('Data/Anime_final.csv')
 #since the values of rating episodes and members are comparitively large we need to scale the dataset
 scaled = MaxAbsScaler()
 Anime_final = scaled.fit_transform(Anime_final)
 recommendations = NearestNeighbors(n_neighbors=11, algorithm='ball_tree').fit(Anime_final)
 recommendations.kneighbors(Anime_final)
 anime_indices = recommendations.kneighbors(Anime_final)[1]
-
+anime_names=list(df.iloc[0:-1,1].values)
+print(anime_names[:5])
 def recommendation(anime):
 
 
@@ -34,7 +35,7 @@ def recommendation(anime):
 
 @app.route('/')
 def home():
-    return flask.render_template('index.html',recommendations_table = top_anime.to_html())
+    return flask.render_template('index.html',recommendations_table = top_anime.to_html(),anime_names=anime_names)
 
 @app.route('/recommend',methods=['POST'])
 def recommend():
@@ -50,4 +51,4 @@ def Contactus():
      return flask.render_template('Test.html')
 
 if __name__=='__main__':
-    app.run(host="0.0.0.0", port='5000', debug=True)
+    app.run(debug=True)
