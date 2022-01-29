@@ -4,6 +4,11 @@
 {% block title %}
   Anime Recommender
 {% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% endblock %}
 {% block page_heading%}
   Anime Recommender
   <!--Page heading-->
@@ -11,9 +16,39 @@
 {% block content %}
   {{message}}
   <!--form to add the new item in the list-->
+  <div class="Search_bar">
+    <form class="form" action="{{ url_for('home')}}" method="post">
+      {{form.csrf_token}}
+      <div clas="bar">
+        {{form.autocomp}}
+      </div>
+      <div class="sub_button">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+    
+  </div>
+{% endblock %}
+{% block script%}
+  <script>
+    $(function() {
+        $.ajax({
+            url: '{{ url_for("autocomplete") }}'
+            }).done(function (data){
+                $('#anime_autocomplete').autocomplete({
+                    source: data,
+                    minLength: 2
+                });
+            });
+        });
+  </script>
 {% endblock %}
 {% block style %}
     <!--Style block-->
-    <style>        
+    <style>  
+          #ui-id-1{
+            height: 35%;
+            overflow-y: auto;
+          }
     </style>
 {% endblock %}
