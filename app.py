@@ -1,5 +1,5 @@
 #importing required packages
-from Anime_recommendations import anime_details
+from Anime_recommendations import anime_recommendations
 from flask import Flask,Response,render_template,request
 import json
 from wtforms import Form,StringField
@@ -29,10 +29,13 @@ def home():
         name=form.autocomp.data
         #print(name)
         if name !=None:
-            uid=anime_details.Get_anime_UID(name=name)
+            ob=anime_recommendations()
+            details=ob.Get_recommendations_details(name)
+            message="table"
         else:
-            uid=20
-        return render_template('index.html',form=form,UID=uid)
+            details={}
+            message="error"
+        return render_template('index.html',form=form,data=details,message=message)
 
 
 
