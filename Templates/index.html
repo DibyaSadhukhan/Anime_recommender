@@ -14,7 +14,6 @@
   <!--Page heading-->
 {% endblock %}
 {% block content %}
-  {{message}}
   <!--form to add the new item in the list-->
   <div class="Search_bar">
     <form class="form" action="{{ url_for('home')}}" method="post">
@@ -28,6 +27,7 @@
     </form>
     
   </div>
+  {{UID}}
 {% endblock %}
 {% block script%}
   <script>

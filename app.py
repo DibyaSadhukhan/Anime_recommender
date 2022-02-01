@@ -1,4 +1,5 @@
 #importing required packages
+from Anime_recommendations import anime_details
 from flask import Flask,Response,render_template,request
 import json
 from wtforms import Form,StringField
@@ -25,8 +26,13 @@ def autocomplete():
 @app.route('/', methods =['POST', 'GET'])
 def home():
         form = SearchForm(request.form)
-        print(form.autocomp.data)
-        return render_template('index.html',form=form)
+        name=form.autocomp.data
+        #print(name)
+        if name !=None:
+            uid=anime_details.Get_anime_UID(name=name)
+        else:
+            uid=20
+        return render_template('index.html',form=form,UID=uid)
 
 
 
