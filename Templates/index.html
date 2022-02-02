@@ -14,21 +14,35 @@
   <!--Page heading-->
 {% endblock %}
 {% block content %}
-  <!--form to add the new item in the list-->
-  <div class="Search_bar">
+  <div>
+    <br>
+    <!--form that recommends based on a previous anime that the user has watched -->
     <form class="form" action="{{ url_for('home')}}" method="post">
-      {{form.csrf_token}}
-      <div clas="bar">
-        {{form.autocomp}}
-      </div>
-      <div class="sub_button">
-        <button type="submit" class="btn btn-primary">Search</button>
+      <div class="Search_bar">
+        {{form.csrf_token}}
+        <div class="bar">
+          {{form.autocomp}}
+        </div>
+        <div class="sub_button">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
       </div>
     </form>
-    
+    <br>
+    <div>
+    {%if data%}
+      {%for i in data%}
+        <div>
+          {{i.uid}}
+          {{i.title}}
+          {{i.score}}
+        </div>  
+      {%endfor%}
+    {%else%}
+      The developer is a dumb hoe
+    {%endif%}
   </div>
-  {{message}}
-  {{data}}
+  </div>
 {% endblock %}
 {% block script%}
   <script>
@@ -50,6 +64,25 @@
           #ui-id-1{
             height: 35%;
             overflow-y: auto;
+          }
+
+          .Search_bar{
+            display: flex;
+            justify-content: center;
+          }
+          .bar{
+            width: 75%;
+          }
+          .sub_button{
+            width: 15%;
+          }
+          .btn-primary{
+            margin: auto;
+            height: 35px;
+          }
+          #anime_autocomplete{
+            width: 98%;
+            height: 35px;
           }
     </style>
 {% endblock %}
