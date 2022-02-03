@@ -26,18 +26,21 @@ def autocomplete():
 @app.route('/', methods =['POST', 'GET'])
 def home():
         form = SearchForm(request.form)
-        name=form.autocomp.data
-        #print(name)
-        if name !=None:
-            ob=anime_recommendations()
-            details=ob.Get_recommendations_details(name)
-            message="table"
-        else:
-            details={}
-            message="error"
-        return render_template('index.html',form=form,data=details,message=message)
-
-
+        return render_template('base.html',form=form)
+@app.route('/recommend', methods =['POST'])
+def recommend():
+    form =SearchForm(request.form)
+    name=form.autocomp.data
+    #print(name)
+    if name !=None:
+        ob=anime_recommendations()
+        details=ob.Get_recommendations_details(name)
+        message="table"
+    else:
+        details={}
+        message="error"
+    #return render_template('index.html',form=form)
+    return render_template('index.html',form=form,data=details,message=message)
 
 if __name__ == '__main__':
     app.run(debug = True)

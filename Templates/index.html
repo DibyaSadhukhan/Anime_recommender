@@ -2,87 +2,61 @@
 {% extends 'base.html' %}
 <!-- page title-->
 {% block title %}
-  Anime Recommender
+  {{title}}
 {% endblock %}
 {% block link %}
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-{% endblock %}
-{% block page_heading%}
-  Anime Recommender
-  <!--Page heading-->
+  
 {% endblock %}
 {% block content %}
-  <div>
-    <br>
-    <!--form that recommends based on a previous anime that the user has watched -->
-    <form class="form" action="{{ url_for('home')}}" method="post">
-      <div class="Search_bar">
-        {{form.csrf_token}}
-        <div class="bar">
-          {{form.autocomp}}
-        </div>
-        <div class="sub_button">
-          <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-      </div>
-    </form>
-    <br>
-    <div>
+    <div class="Anime_rec_block">
     {%if data%}
       {%for i in data%}
-        <div>
-          {{i.uid}}
-          {{i.title}}
-          {{i.score}}
-        </div>  
+          <div class="card">
+            <img class="poster" src="{{i.img_url}}" alt="Some generic anime poste">
+            <h4>{{i.title|truncate(20)}}</h4>
+            <p class="price">{{i.score}}</p>
+            {%if i.synopsis%}
+              <p>{{i.synopsis|truncate(50)}}</p>
+            {%else%}
+              <p>Sorry we don't have a synopsis</p>
+            {%endif%}
+            <p><button>Veiw</button></p>
+          </div> 
       {%endfor%}
     {%else%}
-      The developer is a dumb hoe
+      I am out of chakra
     {%endif%}
-  </div>
   </div>
 {% endblock %}
 {% block script%}
-  <script>
-    $(function() {
-        $.ajax({
-            url: '{{ url_for("autocomplete") }}'
-            }).done(function (data){
-                $('#anime_autocomplete').autocomplete({
-                    source: data,
-                    minLength: 2
-                });
-            });
-        });
-  </script>
 {% endblock %}
 {% block style %}
     <!--Style block-->
     <style>  
-          #ui-id-1{
-            height: 35%;
-            overflow-y: auto;
-          }
-
-          .Search_bar{
-            display: flex;
-            justify-content: center;
-          }
-          .bar{
-            width: 75%;
-          }
-          .sub_button{
-            width: 15%;
-          }
-          .btn-primary{
-            margin: auto;
-            height: 35px;
-          }
-          #anime_autocomplete{
-            width: 98%;
-            height: 35px;
-          }
+      .Anime_rec_block{
+        width: 90%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .card {
+        margin-top: 1vh;
+        margin-left: 1vw;
+        margin-right: 1vw;
+        margin-bottom: 1vh;
+        padding-top: 1.5vh;
+        padding-left: .5vw;
+        padding-right: .5vw;
+        box-shadow: 5px 10px 8px #888888;
+        width:20vw;
+        height: 70vh;
+        text-align: center;
+      }
+      .poster{
+        margin: auto;
+        width: 18vw;
+        height: 35vh;
+      }
     </style>
 {% endblock %}

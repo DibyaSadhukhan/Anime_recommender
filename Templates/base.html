@@ -6,9 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         {% block link %}
         {% endblock %}
         <title>
@@ -18,8 +21,7 @@
    </head>
    <body>
         <h1 class="page_heading">
-            {% block page_heading%}
-            {% endblock %}
+            Anime Recommender
         </h1>
       <!-- Navbar here -->
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
@@ -41,11 +43,34 @@
             </ul>
         </div>
         </nav>
+        <br>
+        <!--form that recommends based on a previous anime that the user has watched -->
+        <form class="form" action="{{ url_for('recommend')}}" method="post">
+            <div class="Search_bar">
+                {{form.csrf_token}}
+                <div class="bar">{{form.autocomp}}</div>
+                <div class="sub_button"><button type="submit" class="btn btn-primary">Search</button></div>
+            </div>
+        </form>
+        <br>
+
       <!-- the content of the page -->
         {% block content %}
 
         {% endblock %}
    </body>
+   <script>
+    $(function() {
+        $.ajax({
+            url: '{{ url_for("autocomplete") }}'
+            }).done(function (data){
+                $('#anime_autocomplete').autocomplete({
+                    source: data,
+                    minLength: 2
+                });
+            });
+        });
+  </script>
    {% block script%}
    
    {% endblock %}
@@ -84,5 +109,27 @@
                 color: black;
             }
         }
+        #ui-id-1{
+            height: 35%;
+            overflow-y: auto;
+          }
+
+          .Search_bar{
+            display: flex;
+            justify-content: center;
+          }
+          .bar{
+            width: 75%;
+          }
+          .sub_button{
+            width: 15%;
+          }
+          .btn-primary{
+            height: 35px;
+          }
+          #anime_autocomplete{
+            width: 98%;
+            height: 35px;
+          }
     </style>
 </html>

@@ -9,6 +9,7 @@ class anime_recommendations:
     def get_anime_recommendations(self,name):
         #get 10 recommendations for the searched anime.
         data = pd.read_csv('https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender_data/main/Data/recommendations.csv')
+        data=data.rename(columns = {'0':'uid'})
         rec=data.loc[data['uid']==self.Get_anime_UID(name)]
         rec=rec.values[0]
         del data
@@ -17,7 +18,7 @@ class anime_recommendations:
         details=[]
         data=pd.read_csv('https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender_data/main/Data/animes_details_cleaned.csv')
         rec=self.get_anime_recommendations(name)
-        for i in rec[1:]:
+        for i in rec[1:13]:
             detail=data.loc[data['uid'] == i]
             details.append(dict(detail.iloc[0]))
         del data
