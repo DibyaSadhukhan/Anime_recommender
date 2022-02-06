@@ -1,0 +1,18 @@
+
+##########################################################################################
+Version 1 6/02/22
+1. Recommendation of anime using cosine similarity.
+2. Auto complete on forms using Wtforms on all pages
+3. Form and app security.
+4. Auto detect light and dark modes and change webpage accordingly.
+5. Smooth operation for the prediction algorithm by using 
+    a dataset that stores all the prediction of all the anime.
+6. Responsive navbar.
+#########################################################################################
+*****************************************************************************************
+Upcomimg updates:
+1. Adding more elements to homepage using mongodb
+2. Adding the indivdual anime pages
+3. More responsive website
+4. Login system for a more personalised recommendations
+5. Ability to veiw more than 12 recommendations.

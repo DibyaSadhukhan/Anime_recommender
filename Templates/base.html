@@ -45,15 +45,20 @@
         </nav>
         <br>
         <!--form that recommends based on a previous anime that the user has watched -->
-        <form class="form" action="{{ url_for('recommend')}}" method="post">
-            <div class="Search_bar">
-                {{form.csrf_token}}
-                <div class="bar">{{form.autocomp}}</div>
-                <div class="sub_button"><button type="submit" class="btn btn-primary">Search</button></div>
-            </div>
-        </form>
+        <div class="form_div">
+            <form class="form" action="{{ url_for('recommend')}}" method="post">
+                <div class="Search_bar">
+                    {{form.csrf_token}}
+                    <div class="bar">{{form.autocomp}}</div>
+                    <div class="sub_button"><button type="submit" class="btn btn-primary">Search</button></div>
+                </div>
+            </form>
+        </div>
         <br>
+        </div>
+        <!--div id="loader">
 
+        </div -->
       <!-- the content of the page -->
         {% block content %}
 
@@ -81,9 +86,10 @@
    <style>
        @media (prefers-color-scheme: dark) {
             body {
-                background-color: #485461;
+                background-color: hsl(211, 15%, 33%);
                 background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
                 color: white;
+                height: 100vh;
             }
             nav{
                 font-family: "Ubuntu Condensed";   
@@ -99,6 +105,7 @@
                 background-color: #fffffc;
                 background-image: linear-gradient(315deg, #fffffc 0%, #beb7a4 74%);
                 color: black;
+                height: 100vh;
             }
             nav{
                 font-family: "Ubuntu Condensed";   
