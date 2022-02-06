@@ -43,6 +43,6 @@ def recommend():
     return render_template('Recommend.html',form=form,data=details,message=message)
 @app.route('/features.txt', methods=['GET'])
 def features():
-    return '<object data="./features.txt" width="100vw" height="100vh">Not supported</object>'
+    return '<a href="https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender/Heroku/Release_Notes.txt"> Read more about our current features and upcoming features </a>'
 if __name__ == '__main__':
     app.run(debug = True)
