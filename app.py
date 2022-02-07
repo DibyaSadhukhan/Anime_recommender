@@ -1,9 +1,10 @@
 #importing required packages
 from Anime_recommendations import anime_recommendations
-from flask import Flask,Response,render_template,request
+from flask import Flask,Response,render_template,request,redirect, url_for
 import json
 from wtforms import Form,StringField
 import urllib.request 
+import webbrowser
 
 
 app = Flask(__name__, template_folder="Templates")
@@ -40,9 +41,11 @@ def recommend():
         details={}
         message="error"
     #return render_template('index.html',form=form)
-    return render_template('Recommend.html',form=form,data=details,message=message)
-@app.route('/features.txt', methods=['GET'])
+    return render_template('Recommend.html',form=form,data=details,message=message,title="Recommend:"+name)
+@app.route('/release_notes', methods=['GET'])
 def features():
-    return '<a href="https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender/Heroku/Release_Notes.txt"> Read more about our current features and upcoming features </a>'
+    webbrowser.open("https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender/Heroku/Release_Notes.txt")
+    return redirect(url_for("home"))
+    #return '<a href="https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender/Heroku/Release_Notes.txt"> Read more about our current features and upcoming features </a>'
 if __name__ == '__main__':
     app.run(debug = True)

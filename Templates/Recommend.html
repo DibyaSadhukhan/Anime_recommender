@@ -20,7 +20,7 @@
             {%else%}
               <p>Sorry we don't have a synopsis</p>
             {%endif%}
-            <p><button>Veiw</button></p>
+            <span><button class="button" style="vertical-align:middle" disabled> <span>Veiw More</span></button></span>
           </div> 
       {%endfor%}
     {%else%}
@@ -45,12 +45,13 @@
         margin-left: 1vw;
         margin-right: 1vw;
         margin-bottom: 1vh;
-        padding-top: 1.5vh;
+        padding-top: 1vh;
         padding-left: .5vw;
         padding-right: .5vw;
+        padding-bottom: 1vh;
         box-shadow: 5px 10px 8px #888888;
         width:20vw;
-        height: 70vh;
+        height: 75vh;
         text-align: center;
       }
       .poster{
@@ -58,5 +59,43 @@
         width: 18vw;
         height: 35vh;
       }
+      .button {
+        display: inline-block;
+        border-radius: 4px;
+        background-color: #336DFF;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        transition: all 0.5s;
+        cursor: pointer;
+        width: 50%;
+        margin: auto;
+      }
+
+      .button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+
+      .button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+
+      .button:hover span {
+        padding-right: 25px;
+      }
+
+      .button:hover span:after {
+        opacity: 1;
+        right: 0;
+      }
+
     </style>
 {% endblock %}
