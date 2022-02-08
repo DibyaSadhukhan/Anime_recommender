@@ -27,7 +27,10 @@ def autocomplete():
 @app.route('/', methods =['POST', 'GET'])
 def home():
         form = SearchForm(request.form)
-        return render_template('Home.html',form=form)
+        ob=anime_recommendations()
+        data=ob.Get_Random_details()
+        return render_template('Home.html',form=form,data=data)
+
 @app.route('/recommend', methods =['POST'])
 def recommend():
     form =SearchForm(request.form)

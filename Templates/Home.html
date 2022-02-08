@@ -13,10 +13,27 @@
 {% block content %}
   <div class="details_heading">
     <h2>
-      Just start typing in the name of the last anime you watched.
+      Check these out!
     </h2>
   </div>
-  <div id="todays_pick">
+  <div class="todays_pick">
+    {%if data%}
+      {%for i in data%}
+          <div class="card">
+            <img class="poster" src="{{i.img_url}}" alt="Some generic anime poster">
+            <h4>{{i.title|truncate(20)}}</h4>
+            <p>{{i.genre}}</p>
+            {%if i.synopsis%}
+              <p>{{i.synopsis|truncate(50)}}</p>
+            {%else%}
+              <p>Sorry we don't have a synopsis</p>
+            {%endif%}
+            <span><button class="button" style="vertical-align:middle" disabled> <span>Veiw More</span></button></span>
+          </div> 
+      {%endfor%}
+    {%else%}
+      Yep baka developer.
+    {%endif%}
   </div> 
 {% endblock %}
 {% block script%}
@@ -25,8 +42,115 @@
 <style>
   .details_heading{
     width: 90%;
-    justify-content: center;
+    text-align: center;
     margin:auto;
+  }
+  .todays_pick{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .card {
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    padding-top: 1em;
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-bottom: 1em;
+    box-shadow: 5px 10px 8px #888888;
+    width:19em;
+    height: 37em;
+    text-align: center;
+  }
+  .poster{
+    margin: auto;
+    width: 13em;
+    height: 20.5em;
+  }
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #336DFF;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+    width: 50%;
+    margin: auto;
+  }
+
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+
+  .button:hover span {
+    padding-right: 25px;
+  }
+  .button:hover{
+    background-color: blue;
+  }
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+  @media all and (max-width: 1025px){
+    .card{
+      margin-top: .5em;
+      margin-left: .5em;
+      margin-right: .5em;
+      margin-bottom: .5em;
+      padding-top: .5em;
+      padding-left: .25em;
+      padding-right: .25em;
+      padding-bottom: .5em;
+      box-shadow: 5px 10px 8px #888888;
+      width:20em;
+      height: 38em;
+      text-align: center;
+    }
+    .poster{
+      margin: auto;
+      width: 15em;
+      height: 22.5em;
+    }
+  }
+  @media all and (max-width: 750px) {
+    .card{
+      margin-top: .5em;
+      margin-left: .5em;
+      margin-right: .5em;
+      margin-bottom: .5em;
+      padding-top: .5em;
+      padding-left: .25em;
+      padding-right: .25em;
+      padding-bottom: .5em;
+      box-shadow: 5px 10px 8px #888888;
+      width:17.5em;
+      height: 35em;
+      text-align: center;
+    }
+    .poster{
+      margin: auto;
+      width: 13em;
+      height: 20.5em;
+    }
   }
 </style>
 {% endblock %}

@@ -7,6 +7,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu+Condensed" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -53,8 +54,8 @@
                 <form class="form" action="{{ url_for('recommend')}}" method="post">
                     <div class="Search_bar">
                         {{form.csrf_token}}
-                        <div class="bar">{{form.autocomp}}</div>
-                        <div class="sub_button"><button type="submit" class="btn btn-primary">Search</button></div>
+                        <div class="bar">{{form.autocomp(autocomplete="off",required="required")}}</div>
+                        <div class="sub_button"><button style="vertical-align:middle" type="submit" class="btn btn-primary">Search</button></div>
                     </div>
                 </form>
             </div>
@@ -63,9 +64,6 @@
             {% block content %}
 
             {% endblock %}
-        </div>
-        <div class="for_mobile">
-            <h3>I ran out of coffee. Open in desktop mode instead!</h3>
         </div>
     </body>
    <script>
@@ -88,8 +86,10 @@
 
     {% endblock %}
    <style>
-       @media (prefers-color-scheme: dark) {
+
+       /*@media (prefers-color-scheme: dark) {
             body {
+                font-family: "Ubuntu Condensed";
                 background-color: hsl(211, 15%, 33%);
                 background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
                 color: white;
@@ -103,8 +103,10 @@
                 color: white;
             }
         }
+        */
         @media (prefers-color-scheme: light) {
             body {
+                font-family: "Ubuntu Condensed";
                 background-color: #fffffc;
                 background-image: linear-gradient(315deg, #fffffc 0%, #beb7a4 74%);
                 color: black;
@@ -123,8 +125,21 @@
         }
 
         #ui-id-1{
-            height: 35%;
+            background-color: #fffffc;
+            height: 25%;
+            width: auto;
             overflow-y: auto;
+            overflow-x: hidden;
+            list-style-type:none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+        }
+        #ui-id-1 li :hover{
+            background-color: cornflowerblue;
+        }
+        .ui-helper-hidden-accessible{
+            display: none !important;
         }
         .Search_bar{
             display: flex;
@@ -134,28 +149,59 @@
             width: 75%;
         }
         .sub_button{
-            width: 15%;
+            width: 10%;
         }
         .btn-primary{
-            height: 35px;
+            height: 2.5em;
+            width: 5em;
+        }
+        .btn-primary:hover{
+            background-color: green;
         }
         #anime_autocomplete{
             width: 98%;
-            height: 35px;
+            height: 2.5em;
         } 
-        .for_mobile{
-            display: none;
-        }
-        @media all and (max-width: 885px){
-            .for_mobile{
-                height: 100vh;
-                width: 100vw;
-                background-color: darkolivegreen;
-                display: block;
-                text-align: center;
+        @media all and (max-width: 750px){
+            .form_div{
+                width: 90%;
+                margin: auto;
             }
-            .main_content{
-                display: none;
+            .bar{
+                width: 85%;
+            }
+            .sub_button{
+                width: 15%;
+            }
+        }
+        @media all and (max-width: 500px) {
+            .form_div{
+                width: 100%;
+                margin: auto;
+            }
+            .bar{
+                width: 80%;
+            }
+            .sub_button{
+                width: 20%;
+            }
+            #anime_autocomplete{
+                width: 95%;
+                height: 2.5em;
+                margin-left: .5em;
+            }
+        }
+        @media all and (max-width: 340px){
+            .btn-primary{
+                height: 2.25em;
+                width: 3.5em;
+                text-align: center;
+                vertical-align: middle;
+                padding: 0px 0px 0px 0px;
+            }
+            #anime_autocomplete{
+                width: 98%;
+                height: 2.25em;
             }
         }
     </style>
