@@ -1,53 +1,54 @@
-import flask
-import pandas as pd
-from sklearn.preprocessing import MaxAbsScaler
-from sklearn.neighbors import NearestNeighbors
-app = flask.Flask(__name__, template_folder="Templates")
-df = pd.read_csv('/home/dibyasadhukhan/Anime_recommender/Data/anime.csv')
-all_titles=[df['name'][i] for i in range(len(df['name']))]
-top_anime=(df.sort_values(by=[ 'members','rating'], ascending= False))
-top_anime = top_anime[['name', 'genre','type','rating']]
-top_anime= top_anime.head(10)
-top_anime.index = list(range(1,11))
-
-Anime_final = pd.read_csv('/home/dibyasadhukhan/Anime_recommender/Data/Anime_final.csv')
-#since the values of rating episodes and members are comparitively large we need to scale the dataset
-scaled = MaxAbsScaler()
-Anime_final = scaled.fit_transform(Anime_final)
-recommendations = NearestNeighbors(n_neighbors=11, algorithm='ball_tree').fit(Anime_final)
-recommendations.kneighbors(Anime_final)
-anime_indices = recommendations.kneighbors(Anime_final)[1]
-
-def recommendation(anime):
+#importing required packages
+from Anime_recommendations import anime_recommendations
+from flask import Flask,Response,render_template,request,redirect, url_for
+import json
+from wtforms import Form,StringField
+import urllib.request 
+import webbrowser
 
 
-    names=[]
-    genre=[]
-    rating=[]
-    index=df[(df.name).str.lower() == anime.lower()].index.tolist()[0]
-    for i in anime_indices[index][1:]:
-            names.append(df.iloc[i]['name'])
-            genre.append(df.iloc[i]['genre'])
-            rating.append(df.iloc[i]['rating'])
-    Data=list(zip(names,genre,rating))
-    return pd.DataFrame(Data, columns=['Name','Genre','Rating'], index=['1','2','3','4','5','6','7','8','9','10'])
+app = Flask(__name__, template_folder="Templates")
+app.config['SECRET_KEY']='Anime_recommender_2022_upvamp_secret_Code'
 
-@app.route('/')
+class SearchForm(Form):
+    autocomp = StringField('Anime Name', id='anime_autocomplete',render_kw={"placeholder": "Please type in the name of the anime you have last seen"})
+ 
+ 
+@app.route('/_autocomplete', methods=['GET'])
+def autocomplete():
+    link="https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender_data/main/Data/titles.txt"
+    response = urllib.request.urlopen(link)
+    Text = response.read()
+    Text = Text.decode("utf-8")
+    Text=Text.split('||')
+    return Response(json.dumps(Text), mimetype='application/json')
+ 
+
+@app.route('/', methods =['POST', 'GET'])
 def home():
-    return flask.render_template('index.html',recommendations_table = top_anime.to_html())
+        form = SearchForm(request.form)
+        ob=anime_recommendations()
+        data=ob.Get_Random_details()
+        return render_template('Home.html',form=form,data=data)
 
-@app.route('/recommend',methods=['POST'])
+@app.route('/recommend', methods =['POST'])
 def recommend():
-    if flask.request.method == 'POST':
-        a_name=flask.request.form['input']
-        if a_name not in all_titles:
-            return (flask.render_template('Error.html',Anime_name=a_name))
-        else:
-            result_final=recommendation(a_name)
-            return flask.render_template('Recommendations.html',recommendations_table = result_final.to_html(),Anime_name=a_name)
-@app.route('/Contactus')
-def Contactus():
-     return flask.render_template('Test.html')
-
-if __name__=='__main__':
-    app.run(host="0.0.0.0", port='5000', debug=True)
+    form =SearchForm(request.form)
+    name=form.autocomp.data
+    #print(name)
+    if name !=None:
+        ob=anime_recommendations()
+        details=ob.Get_recommendations_details(name)
+        message="table"
+    else:
+        details={}
+        message="error"
+    #return render_template('index.html',form=form)
+    return render_template('Recommend.html',form=form,data=details,message=message,title="Recommend:"+name)
+@app.route('/release_notes', methods=['GET'])
+def features():
+    webbrowser.open("https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender/Heroku/Release_Notes.txt")
+    return redirect(url_for("home"))
+    #return '<a href="https://raw.githubusercontent.com/DibyaSadhukhan/Anime_recommender/Heroku/Release_Notes.txt"> Read more about our current features and upcoming features </a>'
+if __name__ == '__main__':
+    app.run(debug = True)

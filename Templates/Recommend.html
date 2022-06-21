@@ -1,0 +1,144 @@
+<!--extending the base template-->
+{% extends 'base.html' %}
+<!-- page title-->
+{% block title %}
+  {{title}}
+{% endblock %}
+{% block link %}
+  
+{% endblock %}
+{% block content %}
+    <div class="Anime_rec_block">
+    {%if data%}
+      {%for i in data%}
+          <div class="card">
+            <img class="poster" src="{{i.img_url}}" alt="Some generic anime poste">
+            <h4>{{i.title|truncate(20)}}</h4>
+            <p class="price">{{i.score}}</p>
+            {%if i.synopsis%}
+              <p>{{i.synopsis|truncate(50)}}</p>
+            {%else%}
+              <p>Sorry we don't have a synopsis</p>
+            {%endif%}
+            <span><button class="button" style="vertical-align:middle" disabled> <span>Veiw More</span></button></span>
+          </div> 
+      {%endfor%}
+    {%else%}
+      I am out of chakra
+    {%endif%}
+  </div>
+{% endblock %}
+{% block script%}
+{% endblock %}
+{% block style %}
+    <!--Style block-->
+    <style>  
+      .Anime_rec_block{
+        width: 90%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .card {
+        margin-top: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-bottom: 1em;
+        padding-top: 1em;
+        padding-left: .5em;
+        padding-right: .5em;
+        padding-bottom: 1em;
+        box-shadow: 5px 10px 8px #888888;
+        width:19em;
+        height: 37em;
+        text-align: center;
+      }
+      .poster{
+        margin: auto;
+        width: 13em;
+        height: 20.5em;
+      }
+      .button {
+        display: inline-block;
+        border-radius: 4px;
+        background-color: #336DFF;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        transition: all 0.5s;
+        cursor: pointer;
+        width: 50%;
+        margin: auto;
+      }
+
+      .button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+
+      .button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+
+      .button:hover span {
+        padding-right: 25px;
+      }
+      .button:hover{
+        background-color: blue;
+      }
+      .button:hover span:after {
+        opacity: 1;
+        right: 0;
+      }
+      @media all and (max-width: 1025px){
+        .card{
+          margin-top: .5em;
+          margin-left: .5em;
+          margin-right: .5em;
+          margin-bottom: .5em;
+          padding-top: .5em;
+          padding-left: .25em;
+          padding-right: .25em;
+          padding-bottom: .5em;
+          box-shadow: 5px 10px 8px #888888;
+          width:20em;
+          height: 38em;
+          text-align: center;
+        }
+        .poster{
+          margin: auto;
+          width: 15em;
+          height: 22.5em;
+        }
+      }
+      @media all and (max-width: 750px) {
+        .card{
+          margin-top: .5em;
+          margin-left: .5em;
+          margin-right: .5em;
+          margin-bottom: .5em;
+          padding-top: .5em;
+          padding-left: .25em;
+          padding-right: .25em;
+          padding-bottom: .5em;
+          box-shadow: 5px 10px 8px #888888;
+          width:17.5em;
+          height: 35em;
+          text-align: center;
+        }
+        .poster{
+          margin: auto;
+          width: 13em;
+          height: 20.5em;
+        }
+      }
+    </style>
+{% endblock %}
